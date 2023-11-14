@@ -40,6 +40,7 @@ class ReclamationController extends AbstractController
         //dump('Template rendered!');
         return $this->renderForm('reclamation/addRec.html.twig', ['form' => $form]);
     }
+    
     #[Route('/listLastRec', name: 'list_lastrec')]
     public function listReclamation(ReclamationRepository $reclamationRepository): Response
     {

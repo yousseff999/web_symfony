@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\Reponse;
 use Doctrine\ORM\EntityNotFoundException;
 use App\Form\ReclamationType;
 use App\Form\ReponseType;
@@ -48,19 +50,24 @@ class ReponseController extends AbstractController
     {
         $em = $manager->getManager();
 
-        $reponse  = $reponserepository->find($id);
-        $form = $this->createForm(ReponseType::class, $reponse);
-        $form->handleRequest($request);
+        $Reponse = new Reponse();
 
+        $form = $this->createForm(ReponseType::class, $Reponse);
+        $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $em->persist($reponse);
+            $em->persist($Reponse);
             $em->flush();
+            
+            $this->addFlash('success', 'Reponse added successfully!');
+
             return $this->redirectToRoute('list_reclamationDB');
         }
-        return $this->renderForm('reponse/editReclamation.html.twig', [
-            'reponse' => $reponse,
-            'form' => $form,
-        ]);
+        //dump('Template rendered!');
+        return $this->renderForm('reponse/editReclamation.html.twig', ['form' => $form]);
     }
-
+    
+    
+    
 }
+
+
