@@ -123,36 +123,41 @@
             <!-- Navbar End -->
 
 <div class="container-fluid pt-4 px-4">
-                <h1 class="text-center mb-4">Reclamation Response</h1>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="form-container">
-                {{ form_start(form) }}
+    <div class="text-center">
+        <h1 class="mb-4">Reclamation Response</h1>
+    </div>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'form-container'}}) }}
 
-                <div class="form-group">
-                    {{ form_row(form.ReclamationId, {'label': 'Reclamation Id:', 'label_attr': {'class': 'text-black'}}) }}
+                        <div class="form-group text-center">
+                            {{ form_row(form.ReclamationId, {'label': 'Reclamation Id:', 'label_attr': {'class': 'text-black'}}) }}
+                        </div>
+
+                        <div class="form-group text-center">
+                            {{ form_row(form.dateCreation, {'label': 'Date:', 'label_attr': {'class': 'text-black'}}) }}
+                        </div>
+
+                        <div class="form-group text-center">
+                            {{ form_row(form.contenu, {'label': 'Réponse:', 'label_attr': {'class': 'text-black'}, 'attr': {'style': 'height: 100px;'}}) }}
+                        </div>
+
+                        <div class="form-actions text-center">
+                            {{ form_row(form.Submit, {'label': 'Submit', 'attr': {'class': 'btn btn-primary'}}) }}
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    {{ form_row(form.dateCreation, {'label': 'Date:', 'label_attr': {'class': 'text-black'}}) }}
-                </div>
-
-                <div class="form-group">
-                    {{ form_row(form.contenu, {'label': 'Reponse:', 'label_attr': {'class': 'text-black'}, 'attr': {'style': 'height: 100px;'}}) }}
-                </div>
-
-                <div class="form-actions text-center">
-                    {{ form_row(form.Submit, {'label': 'Submit', 'attr': {'class': 'btn btn-primary'}}) }}
-                </div>
-
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
 </div>
 
-        </div>
+
 
             <!-- Sale & Revenue Start -->
             

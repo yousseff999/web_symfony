@@ -20,7 +20,7 @@ class Reponse
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateCreation = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT)] 
     private ?string $contenu = null;
 
     public function getId(): ?int

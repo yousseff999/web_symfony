@@ -140,11 +140,11 @@
                             {% for reclamation in reclamations %}
                                 <tr>
                                     <td>{{ reclamation.userId }}</td>
-                                    <td>{{ reclamation.date|date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
                                     <td>{{ reclamation.description }}</td>
                                     <td>
-                                  <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}">edit</a>
-                                  <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}">delete</a>        
+                                  <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}"onclick="return confirm('are you sur to edit reclamation ?')">edit</a>
+                                  <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" onclick="return confirm('are you sur to delete reclamation ?')">delete</a>
                                     </td>
                                     <!-- Add more columns as needed -->
                                 </tr>
