@@ -24,22 +24,38 @@ class ReclamationController extends AbstractController
     public function addReclamation(ManagerRegistry $manager, Request $request): Response
     {
         $em = $manager->getManager();
-
+    
         $Reclamation = new Reclamation();
-
+    
         $form = $this->createForm(ReclamationType::class, $Reclamation);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
-            $em->persist($Reclamation);
-            $em->flush();
-            
-            $this->addFlash('success', 'Reclamation added successfully!');
-
-            return $this->redirectToRoute('list_lastrec');
+    
+        $errorMessage = null;
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->badWords($Reclamation->getDescription())) {
+                // Mots inappropriés détectés, définir le message d'erreur
+                $errorMessage = 'Your reclamation contains inappropriate words.';
+            } else {
+                // Aucun mot inapproprié détecté, procéder à l'ajout de la réclamation
+                $em->persist($Reclamation);
+                $em->flush();
+    
+                $this->addFlash('success', 'Reclamation added successfully!');
+    
+                return $this->redirectToRoute('list_lastrec');
+            }
         }
-        //dump('Template rendered!');
-        return $this->renderForm('reclamation/addRec.html.twig', ['form' => $form]);
+    
+        // Si vous arrivez ici, cela signifie qu'il y a des erreurs dans le formulaire
+        // ou que la description contient des mots inappropriés
+    
+        return $this->renderForm('reclamation/addRec.html.twig', [
+            'form' => $form,
+            'errorMessage' => $errorMessage,
+        ]);
     }
+    
     
     #[Route('/listLastRec', name: 'list_lastrec')]
     public function listReclamation(ReclamationRepository $reclamationRepository): Response
@@ -55,5 +71,19 @@ class ReclamationController extends AbstractController
             'successMessage' => $successMessage,
         ]);
     }
+    
+  private function badWords(string $text): bool
+    {
+        $badWords = ['raciste', 'pute', 'israil']; // Remplacez ces valeurs par votre liste de mots interdits
+
+        foreach ($badWords as $badWord) {
+            if (stripos($text, $badWord) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }  
+
     
 }

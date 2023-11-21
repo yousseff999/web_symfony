@@ -77,44 +77,66 @@ https://templatemo.com/tm-548-training-studio
     <video autoplay muted loop id="bg-video">
         <source src="user/assets/images/BROLL CINEMATIC FITNESS VIDEO _ SHORT GYM PROMO.mp4" type="video/mp4" />
     </video>
-
+     
     <div class="video-overlay header-text">
         <div class="caption">
-            <h2 style="color: white; font-size: 24px;">Reclamation</h2>
-            {% if errorMessage is not null %}
-                <div class="alert alert-danger" role="alert">
-                    {{ errorMessage }}
+            <p>
+                <small style="color: white;">
+                    We value your feedback! please set your evaluation.
+                </small>
+            </p>
+
+            {% block body %}
+                {# Afficher le formulaire d'évaluation des étoiles #}
+                <form method="post" action="{{ path('statistics') }}" style="color: white;">
+                    {{ form_start(starRatingForm) }}
+                    {{ form_widget(starRatingForm) }}
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    {{ form_end(starRatingForm) }}
+                </form>
+
+                <canvas id="barChart" width="200" height="65"></canvas>
+
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var ctx = document.getElementById('barChart').getContext('2d');
+                        var data = {{ data|json_encode|raw }};
+                        
+                        var chart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: Object.keys(data),
+                                datasets: [{
+                                    label: 'Number of Ratings',
+                                    data: Object.values(data),
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                },
+                                plugins: {
+                                    legend: {
+                                        labels: {
+                                            color: 'white' // Couleur du texte de légende
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+
+                <div class="mt-3">
+                    <a href="{{ path('add_reclamation') }}" class="btn btn-warning">Back to Reclamation</a>
                 </div>
-            {% endif %}
-            
-            <div class="container mt-5">
-                <div class="form-container">
-                    {{ form_start(form) }}
-
-                    <div class="form-group">
-                        {{ form_row(form.userId, {'label': 'User ID:', 'label_attr': {'class': 'text-white'}}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_row(form.date, {'label': 'Date:', 'label_attr': {'class': 'text-white'}}) }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_row(form.description, {'label': 'Description:', 'label_attr': {'class': 'text-white'}, 'attr': {'style': 'height: 100px;'}}) }}
-                    </div>
-
-                    <div class="form-actions">
-                        {{ form_row(form.Submit, {'label': 'Submit', 'attr': {'class': 'btn btn-primary'}}) }}
-                    </div>
-
-                    {{ form_end(form) }}
-                </div>
-
-                <div class="evaluation-footer text-white small mt-3">
-                    <p>We value your feedback! Please set your evaluation.</p>
-                    <a href="{{ path('statistics') }}" class="btn" style="background-color: orange; color: white;">Evaluation</a>
-                </div>
-            </div>
+            {% endblock %}
         </div>
     </div>
 </div>

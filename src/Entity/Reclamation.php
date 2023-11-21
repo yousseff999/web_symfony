@@ -12,6 +12,7 @@ class Reclamation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    
     private ?int $id = null;
 
     #[ORM\Column]
@@ -22,6 +23,7 @@ class Reclamation
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+    
 
     public function getId(): ?int
     {
@@ -63,4 +65,5 @@ class Reclamation
 
         return $this;
     }
+    
 }
