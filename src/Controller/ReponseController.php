@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Reclamation;
 use App\Entity\Reponse;
 use Doctrine\ORM\EntityNotFoundException;
 use App\Form\ReclamationType;
@@ -23,6 +24,8 @@ class ReponseController extends AbstractController
             'controller_name' => 'ReponseController',
         ]);
     }
+
+    
 
     #[Route('/listReclamation', name: 'list_reclamationDB')]
     public function listReclamation(ReclamationRepository $reclamationrepository): Response
@@ -65,9 +68,29 @@ class ReponseController extends AbstractController
         //dump('Template rendered!');
         return $this->renderForm('reponse/editReclamation.html.twig', ['form' => $form]);
     }
-    
-    
-    
+ 
+    #[Route('/rechercher', name: 'reclamation_search')]
+    public function rechercherParUserId(Request $request): Response
+    {
+        // Récupérer le userId depuis la requête
+        $userId = $request->query->get('userId');
+
+        // Accéder au référentiel (repository) de l'entité Reclamation
+        $reclamationRepository = $this->getDoctrine()->getRepository('App\Entity\Reclamation');
+
+        // Rechercher la réclamation par userId
+        $reclamations = $reclamationRepository->findBy(['userId' => $userId]);
+
+        // Vous pouvez maintenant traiter les réclamations trouvées (par exemple, les afficher dans une vue)
+        return $this->render('reponse/search.html.twig', [
+            'reclamations' => $reclamations,
+            'userId' => $userId,
+        ]);
+    }
+
 }
+
+    
+
 
 

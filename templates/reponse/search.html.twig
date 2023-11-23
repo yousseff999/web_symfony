@@ -90,7 +90,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
     <i class="bi bi-award me-2"></i>Leaderboard
 </a>
-                    <a href="widget.html" class="nav-item nav-link"><i class="bi bi-exclamation-diamond me-2"></i>Reclamations</a>
+                    <a href="{{ path('list_reclamationDB') }}" class="nav-item nav-link"><i class="bi bi-exclamation-diamond me-2"></i>Reclamations</a>
 
 
                 </div>
@@ -122,53 +122,47 @@
             </nav>
             <!-- Navbar End -->
 
-<div class="container-fluid pt-4 px-4">
-                <h1 class="text-center mb-4">List of Reclamations</h1>
-          <!-- Formulaire de recherche -->
-                    <!-- Formulaire de recherche -->
+            <!-- Formulaire de recherche -->
 <form method="get" action="{{ path('reclamation_search') }}" class="d-flex">
     <div class="input-group">
-        
-        <button type="submit" class="btn btn-primary">
-            <a href="{{ path('reclamation_search') }}" style="color: white; text-decoration: none;">Rechercher</a>
-        </button>
+        <label for="userId" class="visually-hidden">Rechercher par UserID :</label>
+        <input type="text" id="userId" name="userId" class="form-control" placeholder="Entrez le UserID">
+        <input type="submit" style="display: none;">
     </div>
 </form>
 
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped text-center">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>User ID</th>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Action</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for reclamation in reclamations %}
-                                <tr>
-                                    <td>{{ reclamation.userId }}</td>
-                                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
-                                    <td>{{ reclamation.description }}</td>
-                                    <td>
-                                  <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}"onclick="return confirm('are you sur to edit reclamation ?')">edit</a>
-                                  <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" onclick="return confirm('are you sur to delete reclamation ?')">delete</a>
-                                    </td>
-                                    <!-- Add more columns as needed -->
-                                </tr>
-                                
-                            {% else %}
-                                <tr>
-                                    <td colspan="4">No records found</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped text-center">
+        <thead class="table-primary">
+            <tr>
+                <th>User ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reclamation in reclamations %}
+                <tr>
+                    <td>{{ reclamation.userId }}</td>
+                    <td>{{ reclamation.date|date('Y-m-d') }}</td>
+                    <td>{{ reclamation.description }}</td>
+                    <td>
+                        <a href="{{ path('reclamation_edit', {'id': reclamation.id}) }}" onclick="return confirm('Are you sure to edit reclamation?')">edit</a>
+                        <a href="{{ path('reclamation_delete', {'id': reclamation.id}) }}" onclick="return confirm('Are you sure to delete reclamation?')">delete</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No records found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{{ path('list_reclamationDB') }}" class="btn btn-primary">Retour à la liste des réclamations</a>
 
+            
             <!-- Sale & Revenue Start -->
             
             <!-- Sale & Revenue End -->
@@ -230,8 +224,4 @@
     <script src="{{ asset('dashmin-1.0.0/js/main.js') }}"></script>
 </body>
 </html>
-
-
-
-
-
+            

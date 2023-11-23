@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\TwilioService;
 
 class ReclamationController extends AbstractController
 {
@@ -21,7 +22,7 @@ class ReclamationController extends AbstractController
     }
  
     #[Route('/addReclamation', name: 'add_reclamation')]
-    public function addReclamation(ManagerRegistry $manager, Request $request): Response
+    public function addReclamation(ManagerRegistry $manager, Request $request,TwilioService $twilioService): Response
     {
         $em = $manager->getManager();
     
@@ -42,7 +43,10 @@ class ReclamationController extends AbstractController
                 $em->flush();
     
                 $this->addFlash('success', 'Reclamation added successfully!');
-    
+                $to = '+21652362970'; // Static phone number
+
+             $message = 'New Reclamation created'; 
+             //$twilioService->sendSMS($to, $message);
                 return $this->redirectToRoute('list_lastrec');
             }
         }
@@ -84,6 +88,6 @@ class ReclamationController extends AbstractController
         
         return false;
     }  
-
     
 }
+    
