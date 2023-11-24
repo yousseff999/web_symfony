@@ -22,5 +22,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Service\EmailManager:
-        public: true
+    App\Service\MailService:
+        arguments:
+            $mailer: '@Symfony\Component\Mailer\MailerInterface'
+            $logger: '@Psr\Log\LoggerInterface'

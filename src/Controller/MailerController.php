@@ -2,6 +2,7 @@
 // src/Controller/MailerController.php
 namespace App\Controller;
 
+use App\Service\MailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -11,11 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class MailerController extends AbstractController
 {
     #[Route('/email')]
-    public function sendEmail(MailerInterface $mailer): Response
+    public function sendEmail(MailerInterface $mailer , MailService $mailService): Response
     {
+        $mailService->sendEmail('youssef.zammit@esprit.tn', 'Time for Symfony Mailer!', '<p>Sending emails is fun again!</p>');
+
         $email = (new Email())
             ->from('hello@example.com')
-            ->to('you@example.com')
+            ->to('youssef.zammit@esprit.tn')
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')

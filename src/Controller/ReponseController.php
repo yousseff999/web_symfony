@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MailService;
 use App\Entity\Reclamation;
 use App\Entity\Reponse;
 use Doctrine\ORM\EntityNotFoundException;
@@ -49,7 +50,7 @@ class ReponseController extends AbstractController
     }
 //hnshngsgnhnwnshvwhns
     #[Route('/reclamation/edit/{id}', name: 'reclamation_edit')]
-    public function editReclamation(Request $request, ManagerRegistry $manager, $id, ReponseRepository $reponserepository): Response
+    public function editReclamation(Request $request, ManagerRegistry $manager, $id, ReponseRepository $reponserepository, MailService $mailService): Response
     {
         $em = $manager->getManager();
 
@@ -61,6 +62,11 @@ class ReponseController extends AbstractController
             $em->persist($Reponse);
             $em->flush();
             
+             // Récupérer le contenu du formulaire
+        $emailContent = $form->get('contenu')->getData();
+
+        // Utiliser le contenu du formulaire pour envoyer l'e-mail
+        $mailService->sendEmail('youssef.zammit@esprit.tn', 'Sujet de l\'e-mail', $emailContent);
             $this->addFlash('success', 'Reponse added successfully!');
 
             return $this->redirectToRoute('list_reclamationDB');
